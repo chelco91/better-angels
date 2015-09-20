@@ -5,7 +5,6 @@
     <title>MOCKUP - Activation Screen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <style>
 #activate-btn {
     padding: 5px;
@@ -17,42 +16,36 @@
 </style>
 </head>
 <body>
-
-        <div id="activate-btn"><button id="activate-btn-submit" class="btn btn-danger" onclick="geoFindMe()" >&#9764;</button></div>
-
+    <div id="activate-btn"><button id="activate-btn-submit" class="btn btn-danger">&#9764;</button></div>
     <script>
-    
-function geoFindMe() {
-  var output = document.getElementById("out");
+        function geoFindMe () {
+            if (!navigator.geolocation){
+                if (console && console.error) {
+                    console.error('Geolocation is not supported by your browser');
+                }
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                function (position) { // success callback
+                    var latitude  = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
-  if (!navigator.geolocation){
-    output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-    return;
-  }
-
-  function success(position) {
-    var latitude  = position.coords.latitude;
-    var longitude = position.coords.longitude;
-    
-    window.alert("Lat: " + latitude + "; Long: " + longitude); 
-
-   // output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-
-    // var img = new Image();
-   // img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-
-    // output.appendChild(img);
-  };
-
-  function error() {
-  	window.alert("Unable to retrieve location."); 
-   //  output.innerHTML = "Unable to retrieve your location";
-  };
-
-  // output.innerHTML = "<p>Locating…</p>";
-
-  navigator.geolocation.getCurrentPosition(success, error);
-}
+                    if (console && console.log) {
+                        console.log("Lat: " + latitude + "; Long: " + longitude); 
+                    }
+                    window.location.href = window.location.href.replace('activation-screen/', 'chat-screen/?lat=' + latitude + '&lon=' + longitude);
+                },
+                function () { // error callback
+                    if (console && console.error) {
+                        console.error("Unable to retrieve location."); 
+                    }
+                }
+            );
+        }
+        document.getElementById('activate-btn-submit').addEventListener('click', geoFindMe);
     </script>
+    <noscript>
+        <p>This app requires JavaScript to run. :(</p>
+    </noscript>
 </body>
 </html>
