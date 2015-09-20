@@ -33,7 +33,10 @@
                     if (console && console.log) {
                         console.log("Lat: " + latitude + "; Long: " + longitude); 
                     }
-                    window.location.href = window.location.href.replace('activation-screen/', 'chat-screen/?lat=' + latitude + '&lon=' + longitude);
+                    var new_url = window.location.href.replace('activation-screen/', 'chat-screen/?lat=' + latitude + '&lon=' + longitude);
+
+                    window.open(new_url.replace('chat-screen', 'responder-screen'));
+                    window.location.href = new_url;
                 },
                 function () { // error callback
                     if (console && console.error) {
