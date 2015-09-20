@@ -33,10 +33,11 @@
                     if (console && console.log) {
                         console.log("Lat: " + latitude + "; Long: " + longitude); 
                     }
-                    var new_url = window.location.href.replace('activation-screen/', 'chat-screen/?lat=' + latitude + '&lon=' + longitude);
+                    var new_chat = Math.random().toString(36).substring(2); // not "secure," I know
+                    var new_url = window.location.href.replace('activation-screen/', 'chat-screen/?lat=' + latitude + '&lon=' + longitude + '&chat_room=' + new_chat);
 
                     window.open(new_url.replace('chat-screen', 'responder-screen'));
-                    window.location.href = new_url;
+                    window.location.href = new_url + '&show_safety_modal=1';
                 },
                 function () { // error callback
                     if (console && console.error) {
